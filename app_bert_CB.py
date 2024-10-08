@@ -174,8 +174,8 @@ def predict_survey_name(metadata):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-save_directory = "D:\Seismic Dropsite Metadata Management\savel_model_bert_run_02\SMM\saved_model"
-
+# save_directory = "D:\Seismic Dropsite Metadata Management\savel_model_bert_run_02\SMM\saved_model"
+save_directory = "saved_model"
 
 # Load the saved model, tokenizer, and label encoder
 model = BertForSequenceClassification.from_pretrained(save_directory).to(device)
@@ -235,7 +235,9 @@ import os
 import joblib  # For saving and loading model and preprocessing objects
 
 
-model_dir = "D:\Seismic Dropsite Metadata Management\Code\model_catboost"
+# model_dir = "D:\Seismic Dropsite Metadata Management\Code\model_catboost"
+
+model_dir = "model_catboost"
 
 # Step 11: Load the model, vectorizer, and label encoder
 def load_model(model_dir):
