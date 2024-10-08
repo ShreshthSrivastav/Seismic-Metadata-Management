@@ -6,4 +6,4 @@ langchain_community
 transformers
 torch
 joblib
-sklearn
+scikit-learn
