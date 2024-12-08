@@ -5,5 +5,5 @@ langchain_openai
 langchain-community
 transformers==4.45.1
 joblib==1.4.2
-scikit-learn
+scikit-learn==1.5.1
 catboost==1.2.5
