@@ -2,9 +2,8 @@ langchain
 Openai
 Streamlit
 langchain_openai
-langchain_community
-transformers
-torch
-joblib
+langchain-community
+transformers==4.45.1
+joblib==1.4.2
 scikit-learn
-catboost
+catboost==1.2.5
