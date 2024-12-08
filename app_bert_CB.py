@@ -1,5 +1,3 @@
-#Hello! It seems like you want to import the Streamlit library in Python. Streamlit is a powerful open-source framework used for building web applications with interactive data visualizations and machine learning models. To import Streamlit, you'll need to ensure that you have it installed in your Python environment.
-#Once you have Streamlit installed, you can import it into your Python script using the import statement,
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -22,52 +20,26 @@ import os
 
 
 #App UI starts here
-st.set_page_config(page_title="Seismic Metadata", page_icon=":robot:")
-st.header("Seismic Metadata Management (SMM) app")
+st.set_page_config(page_title="Seismic Metadata QC", page_icon=":robot:")
+st.header("Seismic Metadata QC app")
 
-st.subheader("Predict Survey Name using a non-tuned LLM model:")
+st.subheader("Using prompt engineered LLM model:")
 
 hug_api = st.sidebar.text_input('Huggingface API Key:', type='password') 
 if hug_api:
  os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
 
-# llm = HuggingFaceEndpoint(repo_id="tiiuae/falcon-7b")
-
 llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", api_key = hug_api) 
-
-# llm = HuggingFaceEndpoint(repo_id="meta-llama/Meta-Llama-3-8B-Instruct") # Last used model 
- 
-# llm = HuggingFaceEndpoint(repo_id="google-bert/bert-base-uncased") 
-
-# tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2")
-
-# llm = AutoModelForCausalLM.from_pretrained("openai-community/gpt2")
-
-
-
-# llm = AutoModelForCausalLM.from_pretrained("meta-llama/Meta-Llama-3.1-70B-Instruct")
-
-#Function to return the response
-# def load_answer(question):
-#     # llm = OpenAI(model_name="gpt-3.5-turbo-instruct",temperature=0)
-#     llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.2")
-
-#     answer=llm.invoke(question)
-#     return answer
-
-
 
 #Gets the user input
 def get_text():
     # input_text = st.text_input("You: ", key="input")
-    input_text = st.text_area("Enter the seismic file header (EBCDIC) here: ", key='input', height=100)
+    input_text = st.text_area("Enter your seismic (EBCDIC) header here: ", key='input', height=100)
     return input_text
 
 
 user_input=get_text()
 
-# encoded_input = tokenizer(user_input, return_tensors='pt')
-# output = llm(**encoded_input)
 
 template = """
 {our_text}
@@ -87,29 +59,30 @@ final_prompt = prompt.format(our_text=user_input)
 
 submit = st.button('Find the Survey Name')  
 
-# If generate button is clicked
 if submit:
+ if not hug_api:
+  st.error("Please provide a valid OpenAI API Key before adding data.")
+ else:
+  st.subheader("Survey Name:")
 
-    st.subheader("Survey Name:")
+  # st.write(final_prompt)
+  st.write(llm.invoke(final_prompt))
 
-    # st.write(final_prompt)
-    st.write(llm.invoke(final_prompt))
+  # response = llm(final_prompt)
 
-    # response = llm(final_prompt)
-
-    # st.write(response)
+  # st.write(response)
 
 
 
                                                                                     # LLM Classifier model:
 
-st.subheader("Predict Survey Name using a fine-tuned LLM model:")
+st.subheader("Using a fine-tuned LLM model:")
 
 
 #Gets the user input
 def get_text_2():
     # input_text = st.text_input("You: ", key="input")
-    input_text_2 = st.text_area("Enter the seismic file header (EBCDIC) here: ", key='input_2', height=100)
+    input_text_2 = st.text_area("Enter your seismic (EBCDIC) header here: ", key='input_2', height=100)
     return input_text_2
 
 
@@ -175,33 +148,26 @@ print("Model, tokenizer, and label encoder loaded successfully.")
 button = st.button("Predict", key = 12345)
 
 if button:
-
-
-    st.subheader("Predicted survey name")
+    st.subheader("Predicted survey name:")
 
     prediction, CL = predict_survey_name(user_input_2)
 
     # st.write(final_prompt)
     st.write("The predicted Survey Name is : ", prediction)
 
-    st.write("The confidence level is: ", str(round(CL,2))+"%"
-                                              )
-
-
-
-
-
+    st.write("The confidence level is: ", str(round(CL,2))+"%")
+                                              
 
 
                                                                                     # CatBoost Classifier model:
 
-st.subheader("Predict Survey Name using a CatBoost model:")
+st.subheader("Using a classic ML model:")
 
 
 #Gets the user input
 def get_text_3():
     # input_text = st.text_input("You: ", key="input")
-    input_text_3 = st.text_area("Enter the seismic file header (EBCDIC) here: ", key='input_3', height=100)
+    input_text_3 = st.text_area("Enter your seismic (EBCDIC) header here: ", key='input_3', height=100)
     return input_text_3
 
 
@@ -280,9 +246,7 @@ def predict_label(text, model, vectorizer, label_encoder):
 button = st.button("Predict", key = 123456)
 
 if button:
-
-
-    st.subheader("Predicted survey name")
+    st.subheader("Predicted survey name:")
 
     prediction, CL = predict_label(user_input_3, loaded_model, loaded_vectorizer, loaded_label_encoder)
 
