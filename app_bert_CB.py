@@ -26,9 +26,8 @@ st.set_page_config(page_title="Seismic Metadata", page_icon=":robot:")
 st.header("Seismic Metadata Management (SMM) app")
 
 st.subheader("Predict Survey Name using a non-tuned LLM model:")
-# os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
 
-hug_api = st.text_input('Huggingface API Key:', type='password') 
+hug_api = st.sidebar.text_input('Huggingface API Key:', type='password') 
 if hug_api:
  os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
 
