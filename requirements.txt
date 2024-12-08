@@ -6,4 +6,5 @@ langchain-community
 transformers==4.45.1
 joblib==1.4.2
 scikit-learn==1.5.1
+numpy==1.21.6
 catboost==1.2.5
