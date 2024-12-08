@@ -61,7 +61,7 @@ submit = st.button('Find the Survey Name')
 
 if submit:
  if not hug_api:
-  st.error("Please provide a valid OpenAI API Key before adding data.")
+  st.error("Please provide a valid Huggingface API Key before adding data.")
  else:
   # os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
   llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", token = hug_api) 
