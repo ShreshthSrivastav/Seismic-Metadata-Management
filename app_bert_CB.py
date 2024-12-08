@@ -20,6 +20,12 @@ from langchain import PromptTemplate
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import os
 
+
+#App UI starts here
+st.set_page_config(page_title="Seismic Metadata", page_icon=":robot:")
+st.header("Seismic Metadata Management (SMM) app")
+
+st.subheader("Predict Survey Name using a non-tuned LLM model:")
 # os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
 
 hug_api = st.text_input('Huggingface API Key:', type='password') 
@@ -51,11 +57,6 @@ llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", api_key 
 #     return answer
 
 
-#App UI starts here
-st.set_page_config(page_title="Seismic Metadata", page_icon=":robot:")
-st.header("Seismic Metadata Management (SMM) app")
-
-st.subheader("Predict Survey Name using a non-tuned LLM model:")
 
 #Gets the user input
 def get_text():
