@@ -17,13 +17,28 @@ from langchain.llms import HuggingFaceEndpoint
 from langchain import PromptTemplate
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import os
-
+import requests 
 
 #App UI starts here
 st.set_page_config(page_title="Seismic Metadata QC", page_icon=":robot:")
 st.header("Seismic Metadata QC app")
 
 st.subheader("Using prompt engineered LLM model:")
+
+
+# Function to validate Huggingface API key
+def validate_huggingface_api_key(api_key):
+    """
+    Validates the provided Hugging Face API key by making a test request.
+    """
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.get("https://huggingface.co/api/whoami-v2", headers=headers)
+    
+    # Return True if the response is 200, otherwise False
+    if response.status_code == 200:
+        return True
+    else:
+        return False
 
 hug_api = st.sidebar.text_input('Huggingface API Key:', type='password') 
 
@@ -57,20 +72,23 @@ final_prompt = prompt.format(our_text=user_input)
 submit = st.button('Find the Survey Name')  
 
 if submit:
- if not hug_api:
-  st.error("Please provide a valid Huggingface API Key before adding data.")
- else:
-  # os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
-  llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", token = hug_api) 
+    if not hug_api:
+        st.error("Please provide a valid Huggingface API Key before adding data.")
+    else:
+        is_valid = validate_huggingface_api_key(hug_api)
+        if not is_valid:
+            st.error("Invalid Huggingface API Key. Please provide a correct key.")
+        else:
+            llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", token = hug_api) 
   
-  st.subheader("Survey Name:")
-
-  # st.write(final_prompt)
-  st.write(llm.invoke(final_prompt))
-
-  # response = llm(final_prompt)
-
-  # st.write(response)
+            st.subheader("Survey Name:")
+        
+            # st.write(final_prompt)
+            st.write(llm.invoke(final_prompt))
+        
+            # response = llm(final_prompt)
+        
+            # st.write(response)
 
 
 
