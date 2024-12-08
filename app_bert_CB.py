@@ -26,10 +26,10 @@ st.header("Seismic Metadata QC app")
 st.subheader("Using prompt engineered LLM model:")
 
 hug_api = st.sidebar.text_input('Huggingface API Key:', type='password') 
-if hug_api:
- os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
+# if hug_api:
+#  os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
 
-llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", api_key = hug_api) 
+# llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", api_key = hug_api) 
 
 #Gets the user input
 def get_text():
@@ -63,6 +63,9 @@ if submit:
  if not hug_api:
   st.error("Please provide a valid OpenAI API Key before adding data.")
  else:
+  # os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
+  llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", token = hug_api) 
+  
   st.subheader("Survey Name:")
 
   # st.write(final_prompt)
