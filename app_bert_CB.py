@@ -26,10 +26,7 @@ st.header("Seismic Metadata QC app")
 st.subheader("Using prompt engineered LLM model:")
 
 hug_api = st.sidebar.text_input('Huggingface API Key:', type='password') 
-# if hug_api:
-#  os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
 
-# llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", api_key = hug_api) 
 
 #Gets the user input
 def get_text():
@@ -44,7 +41,7 @@ user_input=get_text()
 template = """
 {our_text}
 
-Can you find the survey name in the above text? Just give the answer and not the explaination. Put the answer in quotations.
+Can you find the survey name in the above text? Just give the answer and not the explanation. Put the answer in quotations.
 
 Give only one word answer.
 """
