@@ -9,38 +9,26 @@ from torch.utils.data import DataLoader, Dataset
 import torch
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report
 import torch.nn.functional as F
-import joblib
-
 import streamlit as st
-
-
 import pandas as pd
 from io import StringIO
-
 import joblib
-
-import torch
 import transformers
 import langchain
-
-# from langchain_openai import OpenAI
-
-#When deployed on huggingface spaces, this values has to be passed using Variables & Secrets setting, as shown in the video :)
-#import os
-#os.environ["OPENAI_API_KEY"] = "sk-PLfFwPq6y24234234234FJ1Uc234234L8hVowXdt"
-
 from langchain.llms import HuggingFaceEndpoint
-
 from langchain import PromptTemplate
-
 from transformers import AutoTokenizer, AutoModelForCausalLM
-
 import os
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
+
+# os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
+
+hug_api = st.text_input('Huggingface API Key:', type='password') 
+if hug_api:
+ os.environ["HUGGINGFACEHUB_API_TOKEN"] = hug_api
 
 # llm = HuggingFaceEndpoint(repo_id="tiiuae/falcon-7b")
 
-llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3") 
+llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-7B-Instruct-v0.3", api_key = hug_api) 
 
 # llm = HuggingFaceEndpoint(repo_id="meta-llama/Meta-Llama-3-8B-Instruct") # Last used model 
  
@@ -174,7 +162,6 @@ def predict_survey_name(metadata):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# save_directory = "D:\Seismic Dropsite Metadata Management\savel_model_bert_run_02\SMM\saved_model"
 save_directory = "saved_model"
 
 # Load the saved model, tokenizer, and label encoder
@@ -234,8 +221,6 @@ import numpy as np
 import os
 import joblib  # For saving and loading model and preprocessing objects
 
-
-# model_dir = "D:\Seismic Dropsite Metadata Management\Code\model_catboost"
 
 model_dir = "model_catboost"
 
