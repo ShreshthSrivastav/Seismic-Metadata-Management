@@ -49,7 +49,12 @@ def validate_huggingface_api_key(api_key):
         return False
 
 hug_api = st.sidebar.text_input('Huggingface API Key:', type='password') 
-
+if not hug_api:
+    st.error("Please provide a valid Huggingface API Key before adding data.")
+else:
+    is_valid = validate_huggingface_api_key(hug_api)
+    if not is_valid:
+        st.error("Invalid Huggingface API Key. Please provide a correct key.")
 
 #Gets the user input
 def get_text():
